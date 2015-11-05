@@ -105,6 +105,10 @@ p {
 	margin-left:5px;
 } 
 
+.aside h3 {
+	font-family: Times New Roman;
+}
+
 .calculator {
 	margin: 0 auto;
 	width:265px;
