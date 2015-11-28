@@ -1,43 +1,37 @@
-		function checkTest(){
-		//var n = document.forms.test.elements;
-		var s = document.forms.test.getElementsByTagName("input");
+		var checkTest = function (){
+		var s = $("input");
 		var sum = 0;
 		var sumPercent = 0;
 		var t1 = 0;
 		var t2 = 0;
-		//alert(s[0]);
-	
-	for (var i=0; i < s.length; i++){
-		if (s[i].type == "radio"){
-			if(s[i].checked) {
-				if(i==0 || i==6 || i==11){
-					sum = sum + 1;                 
-				}                   
+		
+	s.each(function(i, elem){
+		if($("input:radio").eq(i).prop("checked") == true) {
+			if(i==0 || i==6 || i==11){
+				sum = sum + 1;                 
+			}                   
+		}
+
+		if ($("input.t4").eq(i).prop("checked") == true){
+			if(i==1 || i==3){
+				t1 = t1+0.5;
+			}else {
+				t1 = t1-0.5;
 			}
 		}
-		if (s[i].type == "checkbox"){
-			if(s[i].checked) {
-				if (s[i].name == "t4"){
-					if(i==13 || i==15){
-					t1 = t1+0.5;
-					}else {
-					t1 = t1-0.5;
-					}
-				}
-				if (s[i].name == "t5"){
-					if(i==16 || i==17){
-					t2 = t2+0.5;
-					}else {
-					t2 = t2-0.5;
-					}
-				}
+			
+		if ($("input.t5").eq(i).prop("checked") == true){
+			if(i==0 || i==1){
+				t2 = t2+0.5;
+			}else {
+				t2 = t2-0.5;
 			}
-		}
-	}
+		}		
+		
+	})
 	
 	sum = sum + Math.max(t1,0) + Math.max(t2,0);
-     //alert (sum);
-
+	
      sumPercent = (sum / 5) * 100;
 		
 		switch (true){
@@ -61,5 +55,4 @@
 		}
 	}
 	
-	document.getElementById("result").onclick = checkTest;
-	
+	$("#result").click(checkTest);

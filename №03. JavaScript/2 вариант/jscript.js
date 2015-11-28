@@ -66,24 +66,3 @@ var calcTablo = document.getElementById("enter");
 	function invers() { // функция инверсии знака
 		calcTablo.value = parseFloat(calcTablo.value) * -1;
 	}
-	
-	// назначение обработчиков событий для кнопок
-	
-document.getElementById("point").onclick = pointDec;
-document.getElementById("equal").onclick = rezalt;
-document.getElementById("inversion").onclick = invers;
-document.getElementById("reset").onclick = res;
-
-var number = document.getElementsByName("numberButton");
-for (var i=0; i < number.length; i++){
-	number[i].onclick = function(){
-		clicButton(this.value);
-	}
-}
-
-var numberFunc = document.getElementsByName("functionalButton");
-for (var i=0; i < numberFunc.length; i++){
-	numberFunc[i].onclick = function(){
-		operations(Number(this.id)); 
-	}
-}

@@ -73,4 +73,4 @@
 			 alert("Я таких значений не знаю!");
 		}
 	}
-	
+	document.getElementById("result").onclick = checkTest;

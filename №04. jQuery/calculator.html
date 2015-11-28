@@ -4,6 +4,7 @@
       <title>Калькулятор</title>
       <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	  <link rel="stylesheet" href="style.css" />
+	  <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
    </head>
 	<body>
 		<header class="header">
@@ -30,30 +31,30 @@
 					<td colspan="5"><input id="enter" type="text" value="0" name="enter"/>
 				</tr>
 				<tr>
-					<td><input type="button" name="numberButton" value="7" />
-					<td><input type="button" name="numberButton" value="8" />
-					<td><input type="button" name="numberButton" value="9" />
-					<td><input type="button" name="functionalButton" id="4" value="/" />
+					<td><input type="button" class="number" value="7" />
+					<td><input type="button" class="number" value="8" />
+					<td><input type="button" class="number" value="9" />
+					<td><input type="button" class="functionalButton"  id="4" value="/" />
 					<td><input type="button" name="reset" id="reset" value="C" />
 				</tr>
 				<tr>
-					<td><input type="button" name="numberButton" value="4" />
-					<td><input type="button" name="numberButton" value="5" />
-					<td><input type="button" name="numberButton" value="6" />
-					<td><input type="button" name="functionalButton" id="3" value="*" />
+					<td><input type="button" class="number" value="4" />
+					<td><input type="button" class="number" value="5" />
+					<td><input type="button" class="number" value="6" />
+					<td><input type="button" class="functionalButton" id="3" value="*" />
 					<td><input type="button" name="inversion" id="inversion" value="&plusmn;" />
 				</tr>
 				<tr>
-					<td><input type="button" name="numberButton" value="1" />
-					<td><input type="button" name="numberButton" value="2" />
-					<td><input type="button" name="numberButton" value="3" />
-					<td><input type="button" name="functionalButton" id="2" value="-" />
+					<td><input type="button" class="number" value="1" />
+					<td><input type="button" class="number" value="2" />
+					<td><input type="button" class="number" value="3" />
+					<td><input type="button" class="functionalButton" id="2" value="-" />
 					<td rowspan="2"><input id="equal" type="button" name="equal" value="=" />
 				</tr>
 				<tr>
-					<td colspan="2"><input id="butZero" type="button" name="numberButton" value="0" />
+					<td colspan="2"><input id="butZero" type="button" name="numberButton" class="number" value="0" />
 					<td><input type="button" name="point" id="point" value="." />
-					<td><input type="button" name="functionalButton" id="1" value="+" />
+					<td><input type="button" class="functionalButton" id="1" value="+" />
 				</tr>
 			</table>
 		</form>
