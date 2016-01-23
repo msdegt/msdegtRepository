@@ -1,0 +1,6 @@
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №01. C#\Quicksort\Quicksort\bin\Debug\Quicksort.exe.config
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №01. C#\Quicksort\Quicksort\bin\Debug\Quicksort.exe
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №01. C#\Quicksort\Quicksort\bin\Debug\Quicksort.pdb
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №01. C#\Quicksort\Quicksort\obj\Debug\Quicksort.csprojResolveAssemblyReference.cache
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №01. C#\Quicksort\Quicksort\obj\Debug\Quicksort.exe
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №01. C#\Quicksort\Quicksort\obj\Debug\Quicksort.pdb
