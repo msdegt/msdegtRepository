@@ -1,0 +1,6 @@
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №02. C#\Проба\SmartHouse\SmartHouse\bin\Debug\SmartHouse.exe.config
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №02. C#\Проба\SmartHouse\SmartHouse\bin\Debug\SmartHouse.exe
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №02. C#\Проба\SmartHouse\SmartHouse\bin\Debug\SmartHouse.pdb
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №02. C#\Проба\SmartHouse\SmartHouse\obj\Debug\SmartHouse.csprojResolveAssemblyReference.cache
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №02. C#\Проба\SmartHouse\SmartHouse\obj\Debug\SmartHouse.exe
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №02. C#\Проба\SmartHouse\SmartHouse\obj\Debug\SmartHouse.pdb
