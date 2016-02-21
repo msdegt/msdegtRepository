@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
+using Timer = System.Timers.Timer;
 
 namespace SmartHouse
 {
     class Menu
     {
         private IDictionary<string, Devices> devicesesDictionary = new Dictionary<string, Devices>();
+        public string Input { get; set; }
 
         public void Show()
         {
@@ -33,7 +37,7 @@ namespace SmartHouse
                 {
                     return;
                 }
-                if (commands.Length != 3) ////
+                if (commands.Length != 3) 
                 {
                     Help();
                     continue;
@@ -101,7 +105,7 @@ namespace SmartHouse
                     switch (commands[0].ToLower())
                     {
                         case "on":
-                            s.On();
+                            s.On();                            
                             break;
                         case "off":
                             s.Off();
@@ -115,10 +119,14 @@ namespace SmartHouse
                     switch (commands[0].ToLower())
                     {                        
                         case "scan":
-                            t.ChannelScan();
+                            Console.Clear();
+                            Console.WriteLine("Идет настройка каналов... ");
+                            Console.ReadLine();
+                            Console.WriteLine(t.ChannelScan());
                             break;
                         case "list_chan":
-                            t.ListChannel();
+                            Console.WriteLine(t.ListChannel());
+                            Console.ReadKey();
                             break;                        
                     }
                 }
@@ -135,7 +143,9 @@ namespace SmartHouse
                             t.EarlyChannel();
                             break;
                         case "go_to":
-                            t.GoToChannel();
+                            Console.WriteLine("Введите номер канала: ");
+                            Input = Console.ReadLine();
+                            t.GoToChannel(Input);
                             break;
                         case "prev_chan":
                             t.PreviousChannel();
@@ -158,7 +168,9 @@ namespace SmartHouse
                             t.MinVolume();
                             break;
                         case "set_vol":
-                            t.SetVolume();
+                            Console.WriteLine("Введите уровень громкости: ");
+                            Input = Console.ReadLine();
+                            t.SetVolume(Input);
                             break;
                     }
                 }
@@ -202,20 +214,23 @@ namespace SmartHouse
                     ISetTemperature r = (ISetTemperature)devicesesDictionary[commands[2]];
                     switch (commands[0].ToLower())
                     {
-                        case "level_t":                            
-                            r.SetLevelTemperature();
+                        case "level_t":
+                            Console.WriteLine("Введите желаемую температуру: ");
+                            Input = Console.ReadLine();
+                            r.SetLevelTemperature(Input);
                             break;
                     }
                 }
-
 
                 if (devicesesDictionary[commands[2]] is ICustomMode)
                 {
                     ICustomMode w = (ICustomMode)devicesesDictionary[commands[2]];
                     switch (commands[0].ToLower())
                     {                        
-                        case "custom":
-                            w.SetCustomMode();
+                        case "custom":                            
+                            Console.WriteLine("Введите желаемый уровень температуры в диапазоне 30...90: ");
+                            Input = Console.ReadLine();                               
+                            w.SetCustomMode(Input);
                             break;
                     }
                 }
@@ -246,7 +261,20 @@ namespace SmartHouse
                             b.SetMaxMode();
                             break;                        
                     }
-                }                             
+                }
+
+                if (devicesesDictionary[commands[2]] is IEnterLevel)
+                {
+                    IEnterLevel e = (IEnterLevel)devicesesDictionary[commands[2]];
+                    switch (commands[0].ToLower())
+                    {
+                        case "ent_l":
+                            Console.WriteLine("Введите уровень влажности почвы: ");
+                            Input = Console.ReadLine();
+                            e.EnterLevel(Input);
+                            break;
+                    }
+                }
             }
         }
 
@@ -286,15 +314,17 @@ namespace SmartHouse
 
             Console.WriteLine("Доступные команды для жалюзи:");
             Console.WriteLine("\tmorning shut nameDevice");
-            Console.WriteLine("\tevening shut nameDevice");
-            Console.WriteLine("\tcustom shut nameDevice"); 
+            Console.WriteLine("\tevening shut nameDevice"); 
             Console.WriteLine("\topen shut nameDevice"); 
             Console.WriteLine("\tclose shut nameDevice");
 
             Console.WriteLine("Доступные команды для бойлера:");
             Console.WriteLine("\tmin_mode boiler nameDevice");
             Console.WriteLine("\tmax_mode boiler nameDevice");
-            Console.WriteLine("\tcustom boiler nameDevice"); 
+            Console.WriteLine("\tcustom boiler nameDevice");
+
+            Console.WriteLine("Доступные команды для системы полива:");
+            Console.WriteLine("\tent_l WS nameDevice");
 
             Console.WriteLine("\n \texit _ _");
             Console.WriteLine("Нажмите любую клавишу для продолжения");

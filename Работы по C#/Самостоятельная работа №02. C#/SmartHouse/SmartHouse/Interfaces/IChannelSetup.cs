@@ -2,7 +2,7 @@
 {
     public interface IChannelSetup
     {
-        void ChannelScan();
-        void ListChannel();
+        string ChannelScan();
+        string ListChannel();
     }
 }

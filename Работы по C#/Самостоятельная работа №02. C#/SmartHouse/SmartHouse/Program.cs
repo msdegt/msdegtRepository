@@ -11,7 +11,9 @@ namespace SmartHouse
     {
         private static void Main(string[] args)
         {
-            new Menu().Show();           
+            new Menu().Show();
         }
     }
 }
+
+

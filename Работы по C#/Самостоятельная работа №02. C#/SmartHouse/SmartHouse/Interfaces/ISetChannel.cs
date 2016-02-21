@@ -5,6 +5,6 @@
         void NextChannel();
         void PreviousChannel();
         void EarlyChannel();
-        void GoToChannel();
+        void GoToChannel(string input);
     }
 }

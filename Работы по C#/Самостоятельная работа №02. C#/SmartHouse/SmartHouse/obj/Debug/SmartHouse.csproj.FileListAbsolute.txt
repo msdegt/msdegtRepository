@@ -4,3 +4,12 @@ D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные рабо�
 D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №02. C#\Проба\SmartHouse\SmartHouse\obj\Debug\SmartHouse.csprojResolveAssemblyReference.cache
 D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №02. C#\Проба\SmartHouse\SmartHouse\obj\Debug\SmartHouse.exe
 D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №02. C#\Проба\SmartHouse\SmartHouse\obj\Debug\SmartHouse.pdb
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №02. C#\SmartHouse\SmartHouse\bin\Debug\SmartHouse.exe.config
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №02. C#\SmartHouse\SmartHouse\obj\Debug\SmartHouse.exe
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №02. C#\SmartHouse\SmartHouse\obj\Debug\SmartHouse.pdb
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №02. C#\SmartHouse\SmartHouse\bin\Debug\SmartHouse.exe
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №02. C#\SmartHouse\SmartHouse\bin\Debug\SmartHouse.pdb
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №02. C#\SmartHouse\SmartHouse\obj\Debug\SmartHouse.csprojResolveAssemblyReference.cache
+C:\Users\Maxan4ik\Documents\GitHub\msdegtRepository\Работы по C#\Самостоятельная работа №02. C#\SmartHouse\SmartHouse\bin\Debug\SmartHouse.exe.config
+C:\Users\Maxan4ik\Documents\GitHub\msdegtRepository\Работы по C#\Самостоятельная работа №02. C#\SmartHouse\SmartHouse\obj\Debug\SmartHouse.exe
+C:\Users\Maxan4ik\Documents\GitHub\msdegtRepository\Работы по C#\Самостоятельная работа №02. C#\SmartHouse\SmartHouse\obj\Debug\SmartHouse.pdb

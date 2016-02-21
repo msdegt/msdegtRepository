@@ -43,9 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Boiler.cs" />
+    <Compile Include="Delegate\DelegateState.cs" />
+    <Compile Include="DerivedClasses\Boiler.cs" />
     <Compile Include="AbstractClass\Devices.cs" />
     <Compile Include="Enum\BoilerMode.cs" />
+    <Compile Include="AbstractClass\EventLog.cs" />
+    <Compile Include="Interfaces\IEnterLevel.cs" />
     <Compile Include="Interfaces\IChannelSetup.cs" />
     <Compile Include="Interfaces\ISetTemperature.cs" />
     <Compile Include="Interfaces\IModeHeating.cs" />
@@ -59,12 +62,13 @@
     <Compile Include="Menu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Refrigerator.cs" />
+    <Compile Include="DerivedClasses\Refrigerator.cs" />
     <Compile Include="Enum\ShuttersMode.cs" />
-    <Compile Include="Television.cs" />
+    <Compile Include="DerivedClasses\Television.cs" />
     <Compile Include="Enum\TemperatureLevel.cs" />
-    <Compile Include="WateringSystem.cs" />
-    <Compile Include="WindowShutters.cs" />
+    <Compile Include="DerivedClasses\WateringSystem.cs" />
+    <Compile Include="DerivedClasses\WindowShutters.cs" />
+    <Compile Include="Enum\WSMode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

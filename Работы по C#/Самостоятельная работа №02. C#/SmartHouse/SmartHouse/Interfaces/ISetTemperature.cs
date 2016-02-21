@@ -2,6 +2,6 @@
 {
     public interface ISetTemperature
     {
-        void SetLevelTemperature();
+        void SetLevelTemperature(string input);
     }
 }

@@ -2,6 +2,6 @@
 {
     public interface ICustomMode
     {
-        void SetCustomMode();
+        void SetCustomMode(string input);
     }
 }
