@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,21 +12,27 @@ namespace SmartHouse
 {
     class Menu
     {
-        private IDictionary<string, Devices> devicesesDictionary = new Dictionary<string, Devices>();
+        private IDictionary<string, Device> DevicesDictionary = new Dictionary<string, Device>();
+
+        private int temp;
+        private double t;
         public string Input { get; set; }
+        public ICreate CO { get; set; } 
 
         public void Show()
         {
-            devicesesDictionary.Add("TV1", new Television(false));
-            devicesesDictionary.Add("Ref1", new Refrigerator(false, false));
-            devicesesDictionary.Add("Shut1", new WindowShutters(false, true));
-            devicesesDictionary.Add("Boiler1", new Boiler(false));
-            devicesesDictionary.Add("WS1", new WateringSystem(false));
+            CO = new CreateObject();
+            
+            DevicesDictionary.Add("TV1", CO.CreateTv());
+            DevicesDictionary.Add("Ref1", CO.CreateRef()); 
+            DevicesDictionary.Add("Shut1", CO.CreateShut());
+            DevicesDictionary.Add("Boiler1", CO.CreateBoiler());
+            DevicesDictionary.Add("WS1", CO.CreateWs());
 
             while (true)
             {
                 Console.Clear();
-                foreach (var dev in devicesesDictionary)
+                foreach (var dev in DevicesDictionary)
                 {
                     Console.WriteLine("Название: " + dev.Key + ", " + dev.Value.ToString());
                 }
@@ -42,36 +49,36 @@ namespace SmartHouse
                     Help();
                     continue;
                 }
-                if (commands[0].ToLower() == "add" && !devicesesDictionary.ContainsKey(commands[2]))
+                if (commands[0].ToLower() == "add" && !DevicesDictionary.ContainsKey(commands[2]))
                 {
                     if (commands[1] == "TV")
                     {
-                        devicesesDictionary.Add(commands[2], new Television(false));
+                        DevicesDictionary.Add(commands[2], CO.CreateTv());
                         continue;
                     }
                     if (commands[1] == "ref")
                     {
-                        devicesesDictionary.Add(commands[2], new Refrigerator(false, false));
+                        DevicesDictionary.Add(commands[2], CO.CreateRef());
                         continue;
                     }
                     if (commands[1] == "shut")
                     {
-                        devicesesDictionary.Add(commands[2], new WindowShutters(false, true));
+                        DevicesDictionary.Add(commands[2], CO.CreateShut());
                         continue;
                     }
                     if (commands[1] == "boiler")
                     {
-                        devicesesDictionary.Add(commands[2], new Boiler(false));
+                        DevicesDictionary.Add(commands[2], CO.CreateBoiler());
                         continue;
                     }
                     if (commands[1] == "WS")
                     {
-                        devicesesDictionary.Add(commands[2], new WateringSystem(false));
+                        DevicesDictionary.Add(commands[2], CO.CreateWs());
                         continue;
                     }
                 }
 
-                if (commands[0].ToLower() == "add" && devicesesDictionary.ContainsKey(commands[2]))
+                if (commands[0].ToLower() == "add" && DevicesDictionary.ContainsKey(commands[2]))
                 {
                     Console.WriteLine("Устройство с таким именем уже существует");
                     Console.WriteLine("Нажмите любую клавишу для продолжения");
@@ -79,33 +86,33 @@ namespace SmartHouse
                     continue;
                 }
 
-                if (commands[0].ToLower() == "del" && !devicesesDictionary.ContainsKey(commands[2]))
+                if (commands[0].ToLower() == "del" && !DevicesDictionary.ContainsKey(commands[2]))
                 {
-                    Console.WriteLine("Выполнение команды невозможно, т.к. устройства с таким именем не существует");
+                    Console.WriteLine("Выполнение команды невозможно, т.к. устройство с таким именем не существует");
                     Console.WriteLine("Нажмите любую клавишу для продолжения");
                     Console.ReadLine();
                     continue;
                 }
 
-                if (!devicesesDictionary.ContainsKey(commands[2]))
+                if (!DevicesDictionary.ContainsKey(commands[2]))
                 {
                     Help();
                     continue;
                 }
 
-                if (commands[0].ToLower() == "del" && devicesesDictionary.ContainsKey(commands[2])) 
+                if (commands[0].ToLower() == "del" && DevicesDictionary.ContainsKey(commands[2])) 
                 {
-                    devicesesDictionary.Remove(commands[2]);
+                    DevicesDictionary.Remove(commands[2]);
                     continue;
                 }
-                
-                if (devicesesDictionary[commands[2]] is IStatus)
+
+                if (DevicesDictionary[commands[2]] is IStatus)
                 {
-                    IStatus s = (IStatus)devicesesDictionary[commands[2]];
+                    IStatus s = (IStatus)DevicesDictionary[commands[2]];
                     switch (commands[0].ToLower())
                     {
                         case "on":
-                            s.On();                            
+                            s.On();
                             break;
                         case "off":
                             s.Off();
@@ -113,16 +120,15 @@ namespace SmartHouse
                     }
                 }                
 
-                if (devicesesDictionary[commands[2]] is IChannelSetup)
+                if (DevicesDictionary[commands[2]] is IChannelSetup)
                 {
-                    IChannelSetup t = (IChannelSetup)devicesesDictionary[commands[2]];
+                    IChannelSetup t = (IChannelSetup)DevicesDictionary[commands[2]];
                     switch (commands[0].ToLower())
                     {                        
                         case "scan":
                             Console.Clear();
-                            Console.WriteLine("Идет настройка каналов... ");
-                            Console.ReadLine();
                             Console.WriteLine(t.ChannelScan());
+                            Console.ReadKey();
                             break;
                         case "list_chan":
                             Console.WriteLine(t.ListChannel());
@@ -131,53 +137,85 @@ namespace SmartHouse
                     }
                 }
 
-                if (devicesesDictionary[commands[2]] is ISetChannel)
+                if (DevicesDictionary[commands[2]] is ISetChannel)
                 {
-                    ISetChannel t = (ISetChannel)devicesesDictionary[commands[2]];
+                    ISetChannel ch = (ISetChannel)DevicesDictionary[commands[2]];
                     switch (commands[0].ToLower())
                     {
                         case "next":
-                            t.NextChannel();
+                            ch.NextChannel();
                             break;
                         case "early":
-                            t.EarlyChannel();
+                            ch.EarlyChannel();
                             break;
                         case "go_to":
                             Console.WriteLine("Введите номер канала: ");
                             Input = Console.ReadLine();
-                            t.GoToChannel(Input);
+                            if (Int32.TryParse(Input, out temp))
+                            {
+                                if (temp < 0 || temp > ch.MAXchannel)
+                                {
+                                    Console.WriteLine("Ошибка. Такого канала не существует!");
+                                    Console.ReadKey();
+                                }
+                                else
+                                {
+                                    ch.GoToChannel(temp);
+                                }                              
+                            }
+                            else
+                            {
+                                Console.WriteLine("Ошибка! Некорректный ввод номера канала.");
+                                Console.ReadKey();
+                            }
                             break;
                         case "prev_chan":
-                            t.PreviousChannel();
+                            ch.PreviousChannel();
                             break;
                     }
                 }
 
-                if (devicesesDictionary[commands[2]] is ISetVolume)
+                if (DevicesDictionary[commands[2]] is ISetVolume)
                 {
-                    ISetVolume t = (ISetVolume) devicesesDictionary[commands[2]];
+                    ISetVolume v = (ISetVolume) DevicesDictionary[commands[2]];
                     switch (commands[0].ToLower())
                     {
                         case "mute":
-                            t.SetMute();
+                            v.SetMute();
                             break;                                              
                         case "max_vol":
-                            t.MaxVolume();
+                            v.MaxVolume();
                             break;
                         case "min_vol":
-                            t.MinVolume();
+                            v.MinVolume();
                             break;
                         case "set_vol":
-                            Console.WriteLine("Введите уровень громкости: ");
+                            Console.WriteLine("Введите уровень громкости в пределах 0...100: ");
                             Input = Console.ReadLine();
-                            t.SetVolume(Input);
+                            if (Int32.TryParse(Input, out temp))
+                            {
+                                if (temp < 0 || temp > 100)
+                                {
+                                    Console.WriteLine("Ошибка! Недопустимое значение громкости.");
+                                    Console.ReadKey();
+                                }
+                                else
+                                {
+                                    v.SetVolume(temp);
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Ошибка! Некорректный ввод громкости.");
+                                Console.ReadKey();
+                            }
                             break;
                     }
                 }
 
-                if (devicesesDictionary[commands[2]] is IRateOfOpening)
+                if (DevicesDictionary[commands[2]] is IRateOfOpening)
                 {
-                    IRateOfOpening r = (IRateOfOpening)devicesesDictionary[commands[2]];
+                    IRateOfOpening r = (IRateOfOpening)DevicesDictionary[commands[2]];
                     switch (commands[0].ToLower())
                     {                      
                         case "open":
@@ -189,9 +227,9 @@ namespace SmartHouse
                     }
                 }
 
-                if (devicesesDictionary[commands[2]] is ISetFreezeMode)
+                if (DevicesDictionary[commands[2]] is ISetFreezeMode)
                 {
-                    ISetFreezeMode r = (ISetFreezeMode)devicesesDictionary[commands[2]];
+                    ISetFreezeMode r = (ISetFreezeMode)DevicesDictionary[commands[2]];
                     switch (commands[0].ToLower())
                     {
                         case "low":
@@ -209,35 +247,67 @@ namespace SmartHouse
                     }
                 }
 
-                if (devicesesDictionary[commands[2]] is ISetTemperature)
+                if (DevicesDictionary[commands[2]] is ISetTemperature)
                 {
-                    ISetTemperature r = (ISetTemperature)devicesesDictionary[commands[2]];
+                    ISetTemperature r = (ISetTemperature)DevicesDictionary[commands[2]];
                     switch (commands[0].ToLower())
                     {
                         case "level_t":
-                            Console.WriteLine("Введите желаемую температуру: ");
+                            Console.WriteLine("Введите желаемую температуру в диапазоне 2...15: ");
                             Input = Console.ReadLine();
-                            r.SetLevelTemperature(Input);
+                            if (Double.TryParse(Input, out t))
+                            {
+                                if (t < 2 || t > 15)
+                                {
+                                    Console.WriteLine("Ошибка! Недопустимое значение температуры.");
+                                    Console.ReadKey();
+                                }
+                                else
+                                {
+                                    r.SetLevelTemperature(t);
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Ошибка! Некорректный ввод температуры.");
+                                Console.ReadKey();
+                            }
                             break;
                     }
                 }
 
-                if (devicesesDictionary[commands[2]] is ICustomMode)
+                if (DevicesDictionary[commands[2]] is ICustomMode)
                 {
-                    ICustomMode w = (ICustomMode)devicesesDictionary[commands[2]];
+                    ICustomMode w = (ICustomMode)DevicesDictionary[commands[2]];
                     switch (commands[0].ToLower())
                     {                        
                         case "custom":                            
                             Console.WriteLine("Введите желаемый уровень температуры в диапазоне 30...90: ");
-                            Input = Console.ReadLine();                               
-                            w.SetCustomMode(Input);
+                            Input = Console.ReadLine();
+                            if (Double.TryParse(Input, out t))
+                            {
+                                if (t < 30 || t > 90)
+                                {
+                                    Console.WriteLine("Ошибка! Недопустимое значение температуры.");
+                                    Console.ReadKey();
+                                }
+                                else
+                                {
+                                    w.SetCustomMode(t);
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Ошибка! Некорректный ввод температуры.");
+                                Console.ReadKey();
+                            }
                             break;
                     }
                 }
 
-                if (devicesesDictionary[commands[2]] is ITimeOfDayMode)
+                if (DevicesDictionary[commands[2]] is ITimeOfDayMode)
                 {
-                    ITimeOfDayMode w = (ITimeOfDayMode)devicesesDictionary[commands[2]];
+                    ITimeOfDayMode w = (ITimeOfDayMode)DevicesDictionary[commands[2]];
                     switch (commands[0].ToLower())
                     {
                         case "morning":
@@ -249,9 +319,9 @@ namespace SmartHouse
                     }
                 }
 
-                if (devicesesDictionary[commands[2]] is IModeHeating)
+                if (DevicesDictionary[commands[2]] is IModeHeating)
                 {
-                    IModeHeating b = (IModeHeating)devicesesDictionary[commands[2]];
+                    IModeHeating b = (IModeHeating)DevicesDictionary[commands[2]];
                     switch (commands[0].ToLower())
                     {
                         case "min_mode":
@@ -263,15 +333,31 @@ namespace SmartHouse
                     }
                 }
 
-                if (devicesesDictionary[commands[2]] is IEnterLevel)
+                if (DevicesDictionary[commands[2]] is IEnterLevel)
                 {
-                    IEnterLevel e = (IEnterLevel)devicesesDictionary[commands[2]];
+                    IEnterLevel e = (IEnterLevel)DevicesDictionary[commands[2]];
                     switch (commands[0].ToLower())
                     {
                         case "ent_l":
                             Console.WriteLine("Введите уровень влажности почвы: ");
                             Input = Console.ReadLine();
-                            e.EnterLevel(Input);
+                            if (Int32.TryParse(Input, out temp))
+                            {
+                                if (temp < 0 || temp > 100)
+                                {
+                                    Console.WriteLine("Ошибка! Недопустимое значение уровня влажности почвы.");
+                                    Console.ReadKey();
+                                }
+                                else
+                                {
+                                    e.EnterLevel(temp);
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Ошибка! Некорректный ввод уровня влажности почвы.");
+                                Console.ReadKey();
+                            }
                             break;
                     }
                 }

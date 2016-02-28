@@ -4,6 +4,5 @@
     {
         MorningMode,
         EveningMode,
-        CustomMode
     }
 }

@@ -2,7 +2,8 @@
 {
     public interface ISetVolume
     {
-        void SetVolume(string input);
+        int CurrentVolume { get; set; }
+        void SetVolume(int input);
         void MaxVolume();
         void MinVolume();
         void SetMute();

@@ -6,154 +6,136 @@ using System.Threading.Tasks;
 
 namespace SmartHouse
 {
-    class Refrigerator : Devices, IStatus, ISetTemperature, IRateOfOpening, ISetFreezeMode
+    public class Refrigerator : Device, IStatus, ISetTemperature, IRateOfOpening, ISetFreezeMode
     {
 
-        private bool statusOpen;
-        private TemperatureLevel freeze; // режимы заморозки
-        private double temperature; // значение температуры
-        private double temp;
         private bool lamp; // состояние лампочки горит или нет
         private bool beep; // // сигнал
-        private string warning = "";  // предупреждения
+        private TemperatureLevel freeze; // режимы заморозки
+        private double temperature; // значение температуры
+        private double temp;        
 
-        public event RefStateHandler FridgeActive;
-        
-        public bool StatusDoor { get; set; }
-        public bool StatusOpen
+        public event RefStateHandler TurnedOn;
+        public event RefStateHandler TurnedOff;
+        public event RefStateHandler Opened;
+        public event RefStateHandler Closed;
+        public event RefStateHandler SetTemp;
+
+        public event RefStateHandler SetLow;
+        public event RefStateHandler SetColder;
+        public event RefStateHandler SetDeep;
+        public event RefStateHandler Defrosting;
+
+        public Refrigerator(bool status, bool statusDoor, double temperature) : base(status) // конструктор
+        {
+            StatusOpen = statusDoor;
+            Temperature = temperature;
+        }
+
+        public bool StatusOpen { get; set; }
+        public double Temperature
         {
             get
             {
-                return statusOpen;
+                return temperature;
             }
 
             set
             {
-                statusOpen = value;
+                if (value >= 2 && value <= 15 )
+                {
+                    if (value >= 2 && value < 3)
+                    {
+                        freeze = TemperatureLevel.DeepFreeze;
+                        temperature = value;
+                    }
+                    if (value >= 3 && value < 5)
+                    {
+                        freeze = TemperatureLevel.ColderFreezing;
+                        temperature = value;
+                    }
+                    if (value >= 5 && value <= 6)
+                    {
+                        freeze = TemperatureLevel.LowFreeze;
+                        temperature = value;
+                    }
+                    if (value >= 6 && value <= 15)
+                    {
+                        freeze = TemperatureLevel.Defrost; //// !!!!
+                        temperature = value;
+                    }
+                }
             }
         }
-
-        public Refrigerator(bool status, bool statusDoor) : base(status) // конструктор
-        {
-            freeze = TemperatureLevel.ColderFreezing;
-            temperature = 4;
-            temp = temperature;
-            StatusDoor = statusDoor;
-        }
+        
         public void On() // включили холодильник
         {
-            Status = true;
-            FridgeActive = () => EventLog.EventDevice("Холодильник включили");
-            if (FridgeActive != null)
+            if (Status == false)
             {
-                FridgeActive.Invoke();
+                Status = true;
+                if (TurnedOn != null)
+                {
+                    TurnedOn.Invoke("Холодильник включили");
+                }               
             }
         }
 
         public void Off() // выключили холодильник
         {
-            Status = false;
-            FridgeActive = () => EventLog.EventDevice("Холодильник выключили");
-            if (FridgeActive != null)
+            if (Status)
             {
-                FridgeActive.Invoke();
+                Status = false;
+                if (TurnedOff != null)
+                {
+                    TurnedOff.Invoke("Холодильник выключили");
+                }                
             }
         }
 
         public void Open() // открыли дверцу холодильника
         {
-            StatusDoor = true;
-            FridgeActive = () => EventLog.EventDevice("Открыли дверцу холодильника");
-            if (FridgeActive != null)
+            if (StatusOpen == false)
             {
-                FridgeActive.Invoke();
-            }
-            if (Status)
-            {
+                StatusOpen = true;
+                if (Opened != null)
+                {
+                    Opened.Invoke("Открыли дверцу холодильника");
+                }                
                 lamp = true;
-                warning = "";
-                if (temperature < 6)
+                if (Temperature >= 2 && Temperature <= 6)  
                 {
                     System.Threading.Thread.Sleep(10000);
-                    for (int i = 0; temperature < 8; i++)
+                    for (int i = 0; Temperature < 8; i++)
                     {
-                        temperature += 0.5;
+                        Temperature += 0.5;
                     }                    
                 }
-                if (temperature <= 8)
+                if (Temperature <= 8)
                 {
-                    beep = true; 
-                    warning = "Необходимо закрыть дверцу холодильника!";
+                    beep = true;
                 }               
             }
         }
 
         public void Close() // закрыли дверцу холодильника
         {
-            StatusDoor = false;
-            FridgeActive = () => EventLog.EventDevice("Закрыли дверцу холодильника");
-            if (FridgeActive != null)
+            if (StatusOpen)
             {
-                FridgeActive.Invoke();
-            }
-            lamp = false;
-            beep = false;
-            warning = "";
-            if (temperature > 2)
-            {
-                for (int i = 0; temperature > temp; i ++)
+                StatusOpen = false;
+                if (Closed != null)
                 {
-                    temperature -= 0.5;
+                    Closed.Invoke("Закрыли дверцу холодильника");
                 }
-            }
-        }
-
-        public void SetLevelTemperature(string input) // установили температуру холодильника
-        {
-            if (Status)
-            {
-                double t;
-                if (Double.TryParse(input, out t))
+                lamp = false;
+                beep = false;
+                if (Temperature > 2) 
                 {
-                    FridgeActive = () => EventLog.EventDevice("Установили температуру холодильника");
-                    if (FridgeActive != null)
+                    for (int i = 0; Temperature > temp; i ++)
                     {
-                        FridgeActive.Invoke();
-                    }
-                    if (t >= 2 && t <= 6)
-                    {
-                        temperature = t;
-                        temp = temperature;
-                        if (t >= 2 && t < 3)
-                        {
-                            freeze = TemperatureLevel.DeepFreeze;
-                            warning = "";
-                        }
-                        if (t >= 3 && t < 5)
-                        {
-                            freeze = TemperatureLevel.ColderFreezing;
-                            warning = "";
-                        }
-                        if (t >= 5 && t <= 6)
-                        {
-                            freeze = TemperatureLevel.LowFreeze;
-                            warning = "";
-                        }
-                    }
-                    else
-                    {
-                        warning = "Ошибка! Неверное значение температуры.";
+                        Temperature -= 0.5;
                     }
                 }
-                else
-                {
-                    warning = "Ошибка! Некорректный ввод температуры.";
-                }
             }
-            else
-            {
-                warning = "Сначала надо включить холодильник";
-            }                     
         }
 
         public void SetLowFreeze() // режим низкой заморозки холодильника
@@ -161,18 +143,12 @@ namespace SmartHouse
             if (Status)
             {
                 freeze = TemperatureLevel.LowFreeze;
-                temperature = 6;
-                temp = temperature;
-                warning = "";
-                FridgeActive = () => EventLog.EventDevice("Установили режим низкой заморозки холодильника");
-                if (FridgeActive != null)
+                Temperature = 6;
+                temp = Temperature;
+                if (SetLow != null)
                 {
-                    FridgeActive.Invoke();
+                    SetLow.Invoke("Установили режим низкой заморозки холодильника");
                 }
-            }
-            else
-            {
-                warning = "Сначала надо включить холодильник";
             }
         }
 
@@ -181,18 +157,12 @@ namespace SmartHouse
             if (Status)
             {
                 freeze = TemperatureLevel.ColderFreezing;
-                temperature = 4;
-                temp = temperature;
-                warning = "";
-                FridgeActive = () => EventLog.EventDevice("Установили режим средней заморозки холодильника");
-                if (FridgeActive != null)
+                Temperature = 4;
+                temp = Temperature;
+                if (SetColder != null)
                 {
-                    FridgeActive.Invoke();
+                    SetColder.Invoke("Установили режим средней заморозки холодильника");
                 }
-            }
-            else
-            {
-                warning = "Сначала надо включить холодильник";
             }
         }
 
@@ -201,18 +171,12 @@ namespace SmartHouse
             if (Status)
             {
                 freeze = TemperatureLevel.DeepFreeze;
-                temperature = 2;
-                temp = temperature;
-                warning = "";
-                FridgeActive = () => EventLog.EventDevice("Установили режим высокой заморозки холодильника");
-                if (FridgeActive != null)
+                Temperature = 2;
+                temp = Temperature;
+                if (SetDeep != null)
                 {
-                    FridgeActive.Invoke();
+                    SetDeep.Invoke("Установили режим высокой заморозки холодильника");
                 }
-            }
-            else
-            {
-                warning = "Сначала надо включить холодильник";
             }
         }
 
@@ -221,21 +185,28 @@ namespace SmartHouse
             if (Status)
             {
                 freeze = TemperatureLevel.Defrost;
-                temperature = 15;
+                Temperature = 15;
                 Status = false;
                 lamp = false;
-                warning = "";
-                FridgeActive = () => EventLog.EventDevice("Установили режим размораживания холодильника");
-                if (FridgeActive != null)
+                if (Defrosting != null)
                 {
-                    FridgeActive.Invoke();
+                    Defrosting.Invoke("Установили режим размораживания холодильника");
                 }
             }
-            else
-            {
-                warning = "Сначала надо включить холодильник";
-            }           
         }
+
+        public void SetLevelTemperature(double input) // установить температуру холодильника
+        {
+            if (Status)
+            {
+                Temperature = input;
+                temp = Temperature;
+                if (SetTemp != null)
+                    {
+                        SetTemp.Invoke("Установили температуру холодильника");
+                    }                                                                               
+            }            
+        }       
 
         public override string ToString() 
         {
@@ -250,7 +221,7 @@ namespace SmartHouse
             }
 
             string statusDoor;
-            if (StatusDoor)
+            if (StatusOpen)
             {
                 statusDoor = "открыта";
             }
@@ -272,9 +243,13 @@ namespace SmartHouse
             {
                 mode = "максимальная";
             }
-            else
+            else if (freeze == TemperatureLevel.Defrost)
             {
                 mode = "разморозка";
+            }
+            else
+            {
+                mode = "не определен";
             }
 
             string lamp;
@@ -297,7 +272,7 @@ namespace SmartHouse
                 beep = "выключен";
             }
 
-            return "Состояние: " + status + ", статус двери: " + statusDoor + ", \nстепень заморозки: " + mode + ", значение температуры: " + temperature + ", \nсостояние лампочки: " + lamp + ", сигнал: " + beep + "\nСтрока состояния: " + warning + "\n";
+            return "Состояние: " + status + ", статус двери: " + statusDoor + ", \nстепень заморозки: " + mode + ", значение температуры: " + Temperature + ", \nсостояние лампочки: " + lamp + ", сигнал: " + beep + "\n";
         }
     }
 }

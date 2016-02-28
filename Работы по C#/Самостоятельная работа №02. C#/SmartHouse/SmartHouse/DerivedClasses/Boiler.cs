@@ -6,28 +6,51 @@ using System.Threading.Tasks;
 
 namespace SmartHouse
 {
-    class Boiler : Devices, IModeHeating, ICustomMode, IStatus 
+    public class Boiler : Device, IModeHeating, ICustomMode, IStatus, ITemperature
     {
-        private int temp; // уровень температуры
+        private double temperature; // уровень температуры
         private BoilerMode statusMode; // режим  BoilerMode
-        private string warning;
 
-        public Boiler(bool status) : base(status)
+        public Boiler(bool status, double temp) : base(status)
         {
-            statusMode = BoilerMode.MinMode;
-            temp = 30;
+            Temperature = temp;
+        }
+
+        public double Temperature
+        {
+            get
+            {
+                return temperature;
+            }
+
+            set
+            {
+                if (value >= 30 && value <= 90)
+                {
+                    if (value == 30)
+                    {
+                        statusMode = BoilerMode.MinMode;
+                        temperature = value;
+                    }
+                    if (value == 90)
+                    {
+                        statusMode = BoilerMode.MaxMode;
+                        temperature = value;
+                    }
+                    if (value != 30 && value != 90)
+                    {
+                        statusMode = BoilerMode.CustomMode;
+                        temperature = value;
+                    }
+                }
+            }
         }
 
         public void On() // включен 
         {
             if (Status == false)
             {
-                Status = true;
-                warning = "";
-            }
-            else
-            {
-                warning = "Ошибка! Бойлер уже включен.";
+                Status = true;               
             }
         }
 
@@ -36,11 +59,6 @@ namespace SmartHouse
             if (Status)
             {
                 Status = false;
-                warning = "";
-            }
-            else
-            {
-                warning = "Ошибка! Бойлер уже выключен.";
             }
         }
 
@@ -49,13 +67,7 @@ namespace SmartHouse
             if (Status)
             {
                 statusMode = BoilerMode.MinMode;
-                temp = 30;
-                warning = "";
             }
-            else
-            {
-                warning = "Сначала надо включить бойлер.";
-            }           
         }
 
         public void SetMaxMode() // максимальный режим
@@ -63,41 +75,15 @@ namespace SmartHouse
             if (Status)
             {
                 statusMode = BoilerMode.MaxMode;
-                temp = 90;
-                warning = "";
-            }
-            else
-            {
-                warning = "Сначала надо включить бойлер.";
             }
         }
 
-        public void SetCustomMode(string input) // пользовательский режим
+        public void SetCustomMode(double input) // пользовательский режим
         {
             if (Status)
             {
-                int t;
-                if (Int32.TryParse(input, out t))
-                {
-                    if (t > 30 && t < 90)
-                    {
-                        statusMode = BoilerMode.CustomMode;
-                        temp = t;
-                        warning = "";
-                    }
-                    else
-                    {
-                        warning = "Ошибка! Недопустимое значение температуры.";
-                    }
-                }
-                else
-                {
-                    warning = "Ошибка! Некорректный ввод температуры.";
-                }
-            }
-            else
-            {
-                warning = "Сначала надо включить бойлер.";
+                statusMode = BoilerMode.CustomMode;
+                Temperature = input;                                  
             }
         }
 
@@ -122,12 +108,16 @@ namespace SmartHouse
             {
                 mode = "максимальный";
             }
-            else
+            else if (statusMode == BoilerMode.CustomMode)
             {
                 mode = "пользовательский";
             }
+            else
+            {
+                mode = "не определен";
+            }
 
-            return "Состояние: " + status + ", режим: " + mode + ", \nуровень температуры: " + temp + "\nСтрока состояния: " + warning + "\n";
+            return "Состояние: " + status + ", режим: " + mode + ", \nуровень температуры: " + Temperature + "\n";
         }
     }
 }

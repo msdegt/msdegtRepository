@@ -6,20 +6,50 @@ using System.Threading.Tasks;
 
 namespace SmartHouse
 {
-    class Television : Devices, IStatus, ISetChannel, IChannelSetup, ISetVolume
+    public class Television : Device, IStatus, ISetChannel, IChannelSetup, ISetVolume
     { 
-        public const int MAXchannel = 60; // максимальный номер канала, т.е всего можно смотреть 60 каналов
+        private int maxChannel; // максимальный номер канала, т.е всего можно смотреть 60 каналов
+        private bool chanState; // настроены каналы или нет
         private int currentVolume; // текущая громкость звука
         private int currentChannel; // текущий канал
         private int temp; // временная переменная
-        private string warning;
-        private bool chanState; // настроены каналы или нет
-        private List<string> channels = new List<string>();
         private string namechannel; // название канала
+        private List<string> channels;        
 
-        public Television(bool status) : base(status)
-        { 
-            chanState = false;
+        public Television(bool status, int maxChannel) : base(status)
+        {
+            MAXchannel = maxChannel;
+        }
+
+        public int MAXchannel { get; set; }
+        public int CurrentVolume
+        {
+            get
+            {
+                return currentVolume;
+            }
+            set
+            {
+                if (value >= 0 && value <= 100)
+                {
+                   currentVolume = value;
+                }               
+            }
+        }
+
+        public int CurrentChannel
+        {
+            get
+            {
+                return currentChannel;
+            }
+            set
+            {
+                if (value <= MAXchannel && value > 0)
+                {
+                    currentChannel = value;
+                }
+            }
         }
 
         ///// включить
@@ -28,13 +58,7 @@ namespace SmartHouse
             if (Status == false)
             {
                 Status = true;
-                currentChannel = 1;
-                currentVolume = 10;
-                warning = "";
-            }
-            else
-            {
-                warning = "Ошибка! Телевизор уже включен.";
+                CurrentChannel = 1;
             }
         }
 
@@ -44,42 +68,6 @@ namespace SmartHouse
             if (Status)
             {
                 Status = false;
-                currentVolume = 0;
-                warning = "";
-            }
-            else
-            {
-                warning = "Ошибка! Телевизор уже выключен.";
-            }
-        }
-
-        /// установить заданную громкость
-        public void SetVolume(string input)
-        {
-            if (Status)
-            {
-                warning = "";
-                int volume;
-                if (Int32.TryParse(input, out volume))
-                {
-                    if (volume >= 0 && volume <= 100)
-                    {
-                        currentVolume = volume;
-                        warning = "";
-                    }
-                    else
-                    {
-                        warning = "Ошибка! Неверное значение громкости.";
-                    }
-                }
-                else
-                {
-                    warning = "Ошибка! Некорректный ввод громкости.";
-                }
-            }
-            else
-            {
-                warning = "Сначала надо включить телевизор";
             }
         }
 
@@ -88,20 +76,10 @@ namespace SmartHouse
         {
             if (Status)
             {
-                warning = "";
-                if (currentVolume < 100)
+                if (CurrentVolume < 100)
                 {
-                    currentVolume += 1;
-                    warning = "";
-                }
-                else
-                {
-                    warning = "Ошибка! Это максимальная громкость.";
-                }
-            }
-            else
-            {
-                warning = "Сначала надо включить телевизор";
+                    CurrentVolume += 1;
+                }                
             }
         }
 
@@ -110,20 +88,10 @@ namespace SmartHouse
         {
             if (Status)
             {
-                warning = "";
-                if (currentVolume > 0)
+                if (CurrentVolume > 0)
                 {
-                    currentVolume -= 1;
-                    warning = "";
-                }
-                else
-                {
-                    warning = "Ошибка! Это минимальная громкость.";
-                }
-            }
-            else
-            {
-                warning = "Сначала надо включить телевизор";
+                    CurrentVolume -= 1;
+                }                
             }
         }
 
@@ -132,12 +100,7 @@ namespace SmartHouse
         {
             if (Status)
             {
-                warning = "";
-                currentVolume = 0;
-            }
-            else
-            {
-                warning = "Сначала надо включить телевизор";
+                CurrentVolume = 0;
             }
         }
 
@@ -146,21 +109,16 @@ namespace SmartHouse
         {
             if (Status)
             {
-                warning = "";
-                temp = currentChannel;
-                if (currentChannel < MAXchannel)
+                temp = CurrentChannel;
+                if (CurrentChannel < MAXchannel)
                 {
-                    currentChannel += 1;
+                    CurrentChannel += 1;
                 }
                 else
                 {
-                    currentChannel = 1;
+                    CurrentChannel = 1;
                 }
                 NamChan();
-            }
-            else
-            {
-                warning = "Сначала надо включить телевизор";
             }
         }
 
@@ -169,13 +127,8 @@ namespace SmartHouse
         {
             if (Status)
             {
-                warning = "";
-                currentChannel = temp;
+                CurrentChannel = temp;
                 NamChan();
-            }
-            else
-            {
-                warning = "Сначала надо включить телевизор";
             }
         }
 
@@ -184,67 +137,69 @@ namespace SmartHouse
         {
             if (Status)
             {
-                warning = "";
-                temp = currentChannel;
-                if (currentChannel > 1)
+                temp = CurrentChannel;
+                if (CurrentChannel > 1)
                 {
-                    currentChannel -= 1;
+                    CurrentChannel -= 1;
                 }
-                if (currentChannel <= 1)
+                if (CurrentChannel <= 1)
                 {
-                    currentChannel = MAXchannel;
+                    CurrentChannel = MAXchannel;
                 }
                 NamChan();
             }
-            else
-            {
-                warning = "Сначала надо включить телевизор";
-            }           
         }
 
-        ///// перейти на канал
-        public void GoToChannel(string input)
+        // Название текущего канала
+        protected void NamChan()
         {
-            if (Status)
+            if (chanState)
             {
-                warning = "";
-                temp = currentChannel;
-                int numChannel;
-                if (Int32.TryParse(input, out numChannel))
+                if (CurrentChannel <= channels.Count && CurrentChannel > 0)
                 {
-                    if (numChannel <= MAXchannel && numChannel > 0)
-                    {
-                        currentChannel = numChannel;
-                        warning = "";
-
-                        NamChan();
-                    }
-                    else
-                    {
-                        warning = "Ошибка. Такого канала не существует!";
-                    }
+                    namechannel = channels[CurrentChannel - 1];
                 }
                 else
                 {
-                    warning = "Ошибка! Некорректный ввод номера канала.";
+                    namechannel = "";
                 }
             }
             else
             {
-                warning = "Сначала надо включить телевизор";
-            }            
+                namechannel = "";
+            }
         }
 
+        /// установить заданную громкость
+        public void SetVolume(int input)
+        {
+            if (Status)
+            {
+                CurrentVolume = input;                                  
+            }
+        }
+        
+        ///// перейти на канал
+        public void GoToChannel(int input)
+        {
+            if (Status)
+            {
+                temp = CurrentChannel;
+                CurrentChannel = input;
+                NamChan();                    
+            }
+        }
+        
         ///// поиск каналов
         public string ChannelScan()
         {
             string str = "";
             if (Status)
-            {                
-                warning = "";
+            {
+                channels = new List<string>();
                 chanState = true;
                 int frequency = 554;
-                currentVolume = 0;
+                CurrentVolume = 0;
                 for (int i = 1; i <= MAXchannel; i++)
                 {
                     str += "\nНастраивается " + i + " канал...частота - " + frequency + "MHz";
@@ -292,12 +247,8 @@ namespace SmartHouse
 
                     frequency += 50;
                 }
-                warning = "Процесс завершен. Все каналы настроены.";
+                str += "\nПроцесс завершен. Все каналы настроены. \nНажмите любую клавишу.";
                 NamChan();
-            }
-            else
-            {
-                warning = "Сначала надо включить телевизор";
             }
             return str;            
         }
@@ -308,37 +259,12 @@ namespace SmartHouse
             string str = "\nСписок каналов: ";
             if (Status)
             {                
-                warning = "";
                 for (int i = 0; i < channels.Count; i++)
                 {
                     str += "\n№" + (i + 1) + " - " + channels[i];
                 }
             }
-            else
-            {
-                warning = "Сначала надо включить телевизор";
-            }
             return str;
-        }
-
-        // Название текущего канала
-        protected void NamChan() 
-        {
-            if (chanState)
-            {
-                if (currentChannel <= channels.Count && currentChannel > 0)
-                {
-                    namechannel = channels[currentChannel - 1];
-                }
-                else
-                {
-                    namechannel = "";
-                }
-            }
-            else
-            {
-                namechannel = "";
-            }
         }
 
         // вывод инфо на экран
@@ -362,7 +288,8 @@ namespace SmartHouse
             {
                 chanState = "требуют настройки";
             }
-            return "Состояние: " + status + ", уровень звука: " + currentVolume + ", текущий канал: " + currentChannel + ", \nимя текущего канала: " + namechannel + ", состояние каналов: " + chanState + "\nСтрока состояния: " + warning + "\n";
+
+            return "Состояние: " + status + ", уровень звука: " + CurrentVolume + ", текущий канал: " + CurrentChannel + ", \nимя текущего канала: " + namechannel + ", состояние каналов: " + chanState + "\n";
         }
     }
 }

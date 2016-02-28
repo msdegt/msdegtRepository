@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace SmartHouse
 {
-    public delegate void RefStateHandler();
+    public delegate void RefStateHandler(string message);
 }

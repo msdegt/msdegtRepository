@@ -2,6 +2,6 @@
 {
     public interface IEnterLevel
     {
-        void EnterLevel(string input);
+        void EnterLevel(int input);
     }
 }

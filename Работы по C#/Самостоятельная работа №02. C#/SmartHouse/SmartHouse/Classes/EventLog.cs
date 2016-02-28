@@ -7,15 +7,16 @@ using System.Threading.Tasks;
 
 namespace SmartHouse
 {
-    abstract class EventLog
+     class EventLog : ILog
     {
-        public static void EventDevice(string message)
+        public void EventDevice(string message)
         {
             try
             {
-                StreamWriter sw = new StreamWriter("log.txt", true); // SmartHouse\SmartHouse\bin\Debug создается, а если есть такой файл - дописывает (т.к. true). 
-                sw.WriteLine(message);
-                sw.Close();
+                using (StreamWriter sw = new StreamWriter("log.txt", true))
+                {
+                    sw.WriteLine(message);
+                }
             }
             catch (Exception e)
             {

@@ -2,6 +2,7 @@
 {
     public enum BoilerMode
     {
+        Default,
         MinMode,
         MaxMode,
         CustomMode

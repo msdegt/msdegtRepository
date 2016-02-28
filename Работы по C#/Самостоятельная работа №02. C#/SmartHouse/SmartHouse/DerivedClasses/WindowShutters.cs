@@ -8,41 +8,23 @@ using System.Timers;
 
 namespace SmartHouse
 {
-    class WindowShutters : Devices, IRateOfOpening, IStatus, ITimeOfDayMode
+    public class WindowShutters : Device, IRateOfOpening, IStatus, ITimeOfDayMode
     {
         private bool statusOpen; // открыты или закрыты
         private ShuttersMode statusMode; // режим
-        private string warning;
-
-        public bool StatusOpen
-        {
-            get
-            {
-                return statusOpen;
-            }
-
-            set
-            {
-                statusOpen = value;
-            }
-        }
 
         public WindowShutters(bool status, bool statOp) : base(status)
         {
             StatusOpen = statOp;
-            statusMode = ShuttersMode.MorningMode;
         }
+
+        public bool StatusOpen { get; set; }
 
         public void On() // жалюзи поднять
         {
             if (Status == false)
             {
-                Status = true;
-                warning = "";
-            }
-            else
-            {
-                warning = "Ошибка! Жалюзи уже подняты.";
+                Status = true;                
             }
         }
 
@@ -51,11 +33,6 @@ namespace SmartHouse
             if (Status)
             {
                 Status = false;
-                warning = "";
-            }
-            else
-            {
-                warning = "Ошибка! Жалюзи уже опущены.";
             }
         }
 
@@ -64,11 +41,6 @@ namespace SmartHouse
             if (StatusOpen == false)
             {
                 StatusOpen = true;
-                warning = "";
-            }
-            else
-            {
-                warning = "Ошибка! Жалюзи уже открыты.";
             }
         }
 
@@ -77,11 +49,6 @@ namespace SmartHouse
             if (StatusOpen)
             {
                 StatusOpen = false;
-                warning = "";
-            }
-            else
-            {
-                warning = "Ошибка! Жалюзи уже закрыты.";
             }
         }
 
@@ -92,17 +59,11 @@ namespace SmartHouse
             if (DateTime.Now.Hour >= 6 && DateTime.Now.Hour <= 17 && Status == false && StatusOpen == false)  
             {
                 Status = true;
-                warning = "";
             }
             else if (DateTime.Now.Hour >= 6 && DateTime.Now.Hour <= 17 && Status == false && StatusOpen)
             {
                 StatusOpen = false;
                 Status = true;
-                warning = "";
-            }
-            else if (DateTime.Now.Hour >= 6 && DateTime.Now.Hour <= 17 && Status)
-            {               
-                warning = "Ошибка! Жалюзи уже подняты.";
             }
         }
         
@@ -111,7 +72,6 @@ namespace SmartHouse
             statusMode = ShuttersMode.EveningMode;
             if (DateTime.Now.Hour >= 18 && DateTime.Now.Hour <= 5 && Status)
             {
-                warning = "";
                 Status = false;
                 if (StatusOpen)
                 {                 
@@ -124,12 +84,7 @@ namespace SmartHouse
                 if (StatusOpen)
                 {
                     StatusOpen = false;
-                    warning = "";
-                }
-                else
-                {
-                    warning = "Ошибка! Жалюзи уже опущены.";
-                }
+                }                
             }
         }       
 
@@ -165,7 +120,7 @@ namespace SmartHouse
                 mode = "вечерний";
             }           
 
-            return "Состояние открытия жалюзей: " + statusOpen + ", \nсостояние поднятия жалюзей: " + status + ", режим: " + mode + "\nСтрока состояния: " + warning + "\n";
+            return "Состояние открытия жалюзей: " + statusOpen + ", \nсостояние поднятия жалюзей: " + status + ", режим: " + mode + "\n";
         }
 
     }

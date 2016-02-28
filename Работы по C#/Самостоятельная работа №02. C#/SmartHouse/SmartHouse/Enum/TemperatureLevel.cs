@@ -2,9 +2,10 @@
 {
     public enum TemperatureLevel
     {
+        Default,
         LowFreeze,
         ColderFreezing,
         DeepFreeze,
-        Defrost
+        Defrost,
     }
 }

@@ -8,12 +8,10 @@ using System.Timers;
 
 namespace SmartHouse
 {
-    class WateringSystem : Devices, IStatus, IEnterLevel // автополив цветов
+    public class WateringSystem : Device, IStatus, IEnterLevel // автополив цветов
     {
-        private bool statusWater; // статус воды открыт или закрыт
-        private string warning = "";
         private WSMode statusWsMode;
-        int soilMoisture;
+        private int soilMoisture;
 
         public WateringSystem(bool status) : base(status)
         {
@@ -23,58 +21,38 @@ namespace SmartHouse
         {
             if (Status == false)
             {
-                Status = true;
-                warning = "";               
-            }
-            else
-            {
-                warning = "Ошибка! Автополив уже включен.";
+                Status = true;                             
             }
         }
 
-        public void EnterLevel(string input)
+        public void Off() // выключили
         {
             if (Status)
             {
-                if (Int32.TryParse(input, out soilMoisture))
-                {
-                    if (soilMoisture <= 100 && soilMoisture >= 0)
-                    {
+                Status = false;
+            }
+        }
 
-                        warning = "";
-                        if (soilMoisture <= 30)
-                        {
-                            statusWsMode = WSMode.StrongMode;
-                            statusWater = true;
-                            Hydration();
-                        }
-                        else if (soilMoisture <= 60)
-                        {
-                            statusWsMode = WSMode.MediumMode;
-                            statusWater = true;
-                            Hydration();
-                        }
-                        else
-                        {
-                            statusWsMode = WSMode.WeakMode;
-                            statusWater = true;
-                            Hydration();
-                        }
-                    }
-                    else
-                    {
-                        soilMoisture = 0;
-                        warning = "Ошибка! Неверное значение уровня влажности почвы.";
-                    }
+        public void EnterLevel(int input)
+        {
+            if (Status)
+            {
+                soilMoisture = input;
+                if (soilMoisture <= 30)
+                {
+                    statusWsMode = WSMode.StrongMode;
+                    Hydration();
+                }
+                else if (soilMoisture <= 60)
+                {
+                    statusWsMode = WSMode.MediumMode;
+                    Hydration();
                 }
                 else
                 {
-                    warning = "Ошибка! Некорректный ввод уровня влажности почвы.";
+                    statusWsMode = WSMode.WeakMode;
+                    Hydration();
                 }
-            }
-            else
-            {
-                warning = "Ошибка! Сначала надо включить автополив.";
             }
         }
 
@@ -83,25 +61,9 @@ namespace SmartHouse
             System.Threading.Thread.Sleep(10000);
             for (int i = 0; soilMoisture < 100; i++)
             {
-                soilMoisture ++;
+                soilMoisture++;
             }
-            statusWater = false;
             Status = false;
-        }
-
-
-        public void Off() // выключили
-        {
-            if (Status)
-            {
-                Status = false;
-                statusWater = false;
-                warning = "";
-            }
-            else
-            {
-                warning = "Ошибка! Автополив уже выключен.";
-            }
         }
 
         public override string ToString()
@@ -130,7 +92,7 @@ namespace SmartHouse
                 mode = "30 капель";
             }
 
-            return "Состояние: " + status + ", режим орошения: " + mode + ", \nуровень влажности почвы: " + soilMoisture + "\nСтрока состояния: " + warning + "\n";
+            return "Состояние: " + status + ", режим орошения: " + mode + ", \nуровень влажности почвы: " + soilMoisture + "\n";
         }
     }
 }

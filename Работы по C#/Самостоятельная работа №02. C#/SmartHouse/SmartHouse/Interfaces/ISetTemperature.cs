@@ -1,7 +1,7 @@
 ﻿namespace SmartHouse
 {
-    public interface ISetTemperature
+    public interface ISetTemperature : ITemperature
     {
-        void SetLevelTemperature(string input);
+        void SetLevelTemperature(double input);
     }
 }

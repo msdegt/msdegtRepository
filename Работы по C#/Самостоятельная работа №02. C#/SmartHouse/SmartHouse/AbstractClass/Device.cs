@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace SmartHouse
 {
-    abstract class Devices
+    public abstract class Device
     {
         public bool Status { get; set; }
 
         public abstract override string ToString();
 
-        public Devices(bool status)
+        public Device(bool status)
         {
             Status = status;
         }
