@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="SmartHouse.Device" Collapsed="true">
-    <Position X="5.25" Y="0.5" Width="1.5" />
+  <Class Name="SmartHouse.Device">
+    <Position X="5.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAEAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAIAEAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
       <FileName>AbstractClass\Device.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="SmartHouse.CreateObject" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="12.25" Y="0.5" Width="1.5" />
@@ -31,15 +32,15 @@
     </TypeIdentifier>
   </Class>
   <Class Name="SmartHouse.Boiler" Collapsed="true">
-    <Position X="9.75" Y="1.75" Width="1.5" />
+    <Position X="9.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAIAAAAAAAAAGAAAAAAAAAIAAAAAAAIQAAAAEBIA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAGAAAAAAAAAIAAAAAAAIQAAAAEBAA=</HashCode>
       <FileName>DerivedClasses\Boiler.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="SmartHouse.Refrigerator" Collapsed="true">
-    <Position X="0.75" Y="1.75" Width="1.5" />
+    <Position X="1.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>CQgAAIAAAAAIIAAMAAoAAAAAEEAAAgCSQAQCAgCkAIg=</HashCode>
       <FileName>DerivedClasses\Refrigerator.cs</FileName>
@@ -55,9 +56,9 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="SmartHouse.WateringSystem" Collapsed="true">
-    <Position X="5.25" Y="1.75" Width="1.5" />
+    <Position X="5.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAIAAAAAAAAAEAAAAAAAAAAIAAAAQAAAAAAACAYA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAIAAAAQAAAAAAACAQA=</HashCode>
       <FileName>DerivedClasses\WateringSystem.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -65,7 +66,7 @@
   <Class Name="SmartHouse.WindowShutters" Collapsed="true">
     <Position X="7.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAIAAAAAQIAAEAAAAAAAAAIAAAAACAIAAAgCAAIA=</HashCode>
+      <HashCode>AAAAAAAAAAAQIAAEAAAAAAAAAIAAAAACAIAAAACAAAA=</HashCode>
       <FileName>DerivedClasses\WindowShutters.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -154,8 +155,8 @@
       <FileName>Interfaces\ISetVolume.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="SmartHouse.IStatus" Collapsed="true">
-    <Position X="15.75" Y="3.25" Width="1.5" />
+  <Interface Name="SmartHouse.IStatus">
+    <Position X="10.25" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
       <FileName>Interfaces\IStatus.cs</FileName>

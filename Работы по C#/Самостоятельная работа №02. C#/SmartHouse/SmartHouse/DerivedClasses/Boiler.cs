@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SmartHouse
 {
-    public class Boiler : Device, IModeHeating, ICustomMode, IStatus, ITemperature
+    public class Boiler : Device, IModeHeating, ICustomMode, ITemperature
     {
         private double temperature; // уровень температуры
         private BoilerMode statusMode; // режим  BoilerMode
@@ -46,22 +46,6 @@ namespace SmartHouse
             }
         }
 
-        public void On() // включен 
-        {
-            if (Status == false)
-            {
-                Status = true;               
-            }
-        }
-
-        public void Off() // выключен 
-        {
-            if (Status)
-            {
-                Status = false;
-            }
-        }
-
         public void SetMinMode() // минимальный режим
         {
             if (Status)
@@ -89,16 +73,6 @@ namespace SmartHouse
 
         public override string ToString() 
         {
-            string status;
-            if (Status)
-            {
-                status = "включен";
-            }
-            else
-            {
-                status = "выключен";
-            }
-
             string mode;
             if (statusMode == BoilerMode.MinMode)
             {
@@ -117,7 +91,7 @@ namespace SmartHouse
                 mode = "не определен";
             }
 
-            return "Состояние: " + status + ", режим: " + mode + ", \nуровень температуры: " + Temperature + "\n";
+            return base.ToString() + ", режим: " + mode + ", \nуровень температуры: " + Temperature + "\n";
         }
     }
 }

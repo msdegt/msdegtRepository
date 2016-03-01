@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SmartHouse
 {
-    public class Refrigerator : Device, IStatus, ISetTemperature, IRateOfOpening, ISetFreezeMode
+    public class Refrigerator : Device, ISetTemperature, IRateOfOpening, ISetFreezeMode
     {
 
         private bool lamp; // состояние лампочки горит или нет
@@ -68,7 +68,7 @@ namespace SmartHouse
             }
         }
         
-        public void On() // включили холодильник
+        public override void On() // включили холодильник
         {
             if (Status == false)
             {
@@ -80,7 +80,7 @@ namespace SmartHouse
             }
         }
 
-        public void Off() // выключили холодильник
+        public override void Off() // выключили холодильник
         {
             if (Status)
             {
@@ -210,16 +210,6 @@ namespace SmartHouse
 
         public override string ToString() 
         {
-            string status;
-            if (Status)
-            {
-                status = "включен";
-            }
-            else
-            {
-                status = "выключен";
-            }
-
             string statusDoor;
             if (StatusOpen)
             {
@@ -272,7 +262,7 @@ namespace SmartHouse
                 beep = "выключен";
             }
 
-            return "Состояние: " + status + ", статус двери: " + statusDoor + ", \nстепень заморозки: " + mode + ", значение температуры: " + Temperature + ", \nсостояние лампочки: " + lamp + ", сигнал: " + beep + "\n";
+            return base.ToString() + ", статус двери: " + statusDoor + ", \nстепень заморозки: " + mode + ", значение температуры: " + Temperature + ", \nсостояние лампочки: " + lamp + ", сигнал: " + beep + "\n";
         }
     }
 }

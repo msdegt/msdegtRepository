@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SmartHouse
 {
-    public class Television : Device, IStatus, ISetChannel, IChannelSetup, ISetVolume
+    public class Television : Device, ISetChannel, IChannelSetup, ISetVolume
     { 
         private int maxChannel; // максимальный номер канала, т.е всего можно смотреть 60 каналов
         private bool chanState; // настроены каналы или нет
@@ -53,7 +53,7 @@ namespace SmartHouse
         }
 
         ///// включить
-        public void On()
+        public override void On()
         {
             if (Status == false)
             {
@@ -61,15 +61,7 @@ namespace SmartHouse
                 CurrentChannel = 1;
             }
         }
-
-        ///// выключить
-        public void Off()
-        {
-            if (Status)
-            {
-                Status = false;
-            }
-        }
+       
 
         ///// громкость больше
         public void MaxVolume()
@@ -270,15 +262,6 @@ namespace SmartHouse
         // вывод инфо на экран
         public override string ToString()
         {
-            string status;
-            if (Status)
-            {
-                status = "включен";
-            }
-            else
-            {
-                status = "выключен";
-            }
             string chanState;
             if (this.chanState)
             {
@@ -289,7 +272,7 @@ namespace SmartHouse
                 chanState = "требуют настройки";
             }
 
-            return "Состояние: " + status + ", уровень звука: " + CurrentVolume + ", текущий канал: " + CurrentChannel + ", \nимя текущего канала: " + namechannel + ", состояние каналов: " + chanState + "\n";
+            return base.ToString() + ", уровень звука: " + CurrentVolume + ", текущий канал: " + CurrentChannel + ", \nимя текущего канала: " + namechannel + ", состояние каналов: " + chanState + "\n";
         }
     }
 }

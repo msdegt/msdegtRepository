@@ -106,19 +106,15 @@ namespace SmartHouse
                     continue;
                 }
 
-                if (DevicesDictionary[commands[2]] is IStatus)
+                switch (commands[0].ToLower())
                 {
-                    IStatus s = (IStatus)DevicesDictionary[commands[2]];
-                    switch (commands[0].ToLower())
-                    {
-                        case "on":
-                            s.On();
-                            break;
-                        case "off":
-                            s.Off();
-                            break;                        
-                    }
-                }                
+                    case "on":
+                    DevicesDictionary[commands[2]].On();
+                        break;
+                    case "off":
+                    DevicesDictionary[commands[2]].Off();
+                        break;                        
+                }                                
 
                 if (DevicesDictionary[commands[2]] is IChannelSetup)
                 {

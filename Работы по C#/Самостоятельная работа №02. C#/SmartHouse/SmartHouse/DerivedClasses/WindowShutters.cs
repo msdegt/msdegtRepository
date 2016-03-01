@@ -8,9 +8,8 @@ using System.Timers;
 
 namespace SmartHouse
 {
-    public class WindowShutters : Device, IRateOfOpening, IStatus, ITimeOfDayMode
+    public class WindowShutters : Device, IRateOfOpening, ITimeOfDayMode
     {
-        private bool statusOpen; // открыты или закрыты
         private ShuttersMode statusMode; // режим
 
         public WindowShutters(bool status, bool statOp) : base(status)
@@ -19,22 +18,6 @@ namespace SmartHouse
         }
 
         public bool StatusOpen { get; set; }
-
-        public void On() // жалюзи поднять
-        {
-            if (Status == false)
-            {
-                Status = true;                
-            }
-        }
-
-        public void Off() // жалюзи опустить
-        {
-            if (Status)
-            {
-                Status = false;
-            }
-        }
 
         public void Open() // жалюзи открыты
         {
@@ -120,7 +103,7 @@ namespace SmartHouse
                 mode = "вечерний";
             }           
 
-            return "Состояние открытия жалюзей: " + statusOpen + ", \nсостояние поднятия жалюзей: " + status + ", режим: " + mode + "\n";
+            return "Cостояние поднятия жалюзей: " + status + ", \nсостояние открытия жалюзей: " + statusOpen + ", режим: " + mode + "\n";
         }
 
     }
