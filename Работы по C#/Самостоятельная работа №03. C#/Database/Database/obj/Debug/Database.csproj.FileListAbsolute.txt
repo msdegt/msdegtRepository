@@ -1,0 +1,6 @@
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №03. C#\Database\Database\bin\Debug\Database.exe.config
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №03. C#\Database\Database\bin\Debug\Database.exe
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №03. C#\Database\Database\bin\Debug\Database.pdb
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №03. C#\Database\Database\obj\Debug\Database.csprojResolveAssemblyReference.cache
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №03. C#\Database\Database\obj\Debug\Database.exe
+D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №03. C#\Database\Database\obj\Debug\Database.pdb
