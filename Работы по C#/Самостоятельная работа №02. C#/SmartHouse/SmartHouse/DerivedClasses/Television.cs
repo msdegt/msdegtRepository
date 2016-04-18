@@ -134,7 +134,7 @@ namespace SmartHouse
                 {
                     CurrentChannel -= 1;
                 }
-                if (CurrentChannel <= 1)
+                else
                 {
                     CurrentChannel = MAXchannel;
                 }

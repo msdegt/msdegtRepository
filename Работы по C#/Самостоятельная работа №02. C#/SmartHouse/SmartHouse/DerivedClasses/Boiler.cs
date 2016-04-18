@@ -25,7 +25,7 @@ namespace SmartHouse
 
             set
             {
-                if (value >= 30 && value <= 90)
+                if (value >= 30 && value <= 90) // можно переделать, что бы пользователь мог сам вводить Min и Max температуру
                 {
                     if (value == 30)
                     {
