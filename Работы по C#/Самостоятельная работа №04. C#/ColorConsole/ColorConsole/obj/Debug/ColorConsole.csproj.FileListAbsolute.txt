@@ -1,6 +1,0 @@
-D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №04. C#\ColorConsole\ColorConsole\bin\Debug\ColorConsole.exe.config
-D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №04. C#\ColorConsole\ColorConsole\bin\Debug\ColorConsole.exe
-D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №04. C#\ColorConsole\ColorConsole\bin\Debug\ColorConsole.pdb
-D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №04. C#\ColorConsole\ColorConsole\obj\Debug\ColorConsole.csprojResolveAssemblyReference.cache
-D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №04. C#\ColorConsole\ColorConsole\obj\Debug\ColorConsole.exe
-D:\КУРСЫ ХАРЬКОВ\2 этап\Самостоятельные работы по C#\Самостоятельная работа №04. C#\ColorConsole\ColorConsole\obj\Debug\ColorConsole.pdb
